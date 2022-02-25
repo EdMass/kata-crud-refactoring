@@ -8,8 +8,8 @@ import co.com.sofka.crud.models.Todo;
 import co.com.sofka.crud.models.TodoList;
 import co.com.sofka.crud.repository.TodoListRepository;
 import co.com.sofka.crud.repository.TodoRepository;
-import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Service
 public class TodoListServices {
 
     public static final String NO_FAULT_ID = "No existe el Id de la Lista";
