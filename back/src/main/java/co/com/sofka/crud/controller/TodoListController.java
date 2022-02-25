@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:8080")
 public class TodoListController {
 
     private TodoListServices todoListServices;
@@ -38,7 +38,7 @@ public class TodoListController {
         todoListServices.deleteListById(id);
     }
 
-    @PutMapping(value = "api/{listId}todo")
+    @PutMapping(value = "api/{listId}/todos")
     public TodoDto updateATodoByListId(@PathVariable("listId") Long listId, @RequestBody TodoDto todoDto){
         if(todoDto.getId() != null){
             return todoListServices.updateATodoListById(listId, todoDto);
@@ -46,13 +46,13 @@ public class TodoListController {
         throw new NotFoundIdException("No existe el Id, no se puede actualizar");
     }
 
-    @PostMapping(value = "api/{listId}/todo")
+    @PostMapping(value = "api/{listId}/todos")
     public TodoDto addNewTodoByListid(@PathVariable("listId") Long listId, @RequestBody TodoDto todoDto){
         return todoListServices.addNewTodoByListId(listId, todoDto);
     }
 
-    @DeleteMapping(value = "api/{listId}/todo")
-    public void deleteATodobyId(@PathVariable("id") Long id){
+    @DeleteMapping(value = "api/{listId}/todos")
+    public void deleteATodobyId(@PathVariable("listId") Long id){
          todoListServices.deleteATodoById(id);
     }
 }
