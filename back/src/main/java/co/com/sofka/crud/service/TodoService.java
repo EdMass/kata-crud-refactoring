@@ -18,14 +18,13 @@ public class TodoService {
     public List<TodoDto> list(){
         List <Todo> todos =repository.findAll();
         return todos.stream().map(item -> new TodoDto(item.getId(), item.getName(),
-                item.isCompleted(), item.getGroupListId())).collect(Collectors.toList());
+                item.isCompleted())).collect(Collectors.toList());
     }
 
     public TodoDto save(TodoDto todoDto){
         Todo todoOrigin = new Todo();
         todoOrigin.setName(todoDto.getName());
         todoOrigin.setCompleted(todoDto.isCompleted());
-        todoOrigin.setGroupListId(todoDto.getGroupListId());
         Todo todo = repository.save(todoOrigin);
         todoDto.setId(todo.getId());
         return todoDto;
@@ -41,7 +40,6 @@ public class TodoService {
         todoDto.setId(todo.getId());
         todoDto.setName(todo.getName());
         todoDto.setCompleted(todo.isCompleted());
-        todoDto.setGroupListId(todo.getGroupListId());
         return todoDto;
     }
 

@@ -4,19 +4,26 @@ package co.com.sofka.crud.dto;
 
 public class TodoDto {
 
+
     private Long id;
     private String name;
     private boolean completed;
-    private String groupListId;
+    private Long groupListId;
 
     public TodoDto() {
     }
 
-    public TodoDto(Long id,String name, boolean completed, String groupListId) {
+    public TodoDto(Long id,String name, boolean completed, Long groupListId) {
         this.id = id;
         this.name = name;
         this.completed = completed;
         this.groupListId = groupListId;
+    }
+
+    public TodoDto(Long id, String name, boolean completed) {
+        this.id = id;
+        this.name = name;
+        this.completed = completed;
     }
 
     public Long getId() {
@@ -43,11 +50,11 @@ public class TodoDto {
         this.completed = completed;
     }
 
-    public String getGroupListId() {
+    public Long getGroupListId() {
         return groupListId;
     }
 
-    public void setGroupListId(String groupListId) {
+    public void setGroupListId(Long groupListId) {
         this.groupListId = groupListId;
     }
 }
