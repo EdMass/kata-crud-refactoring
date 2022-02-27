@@ -61,13 +61,14 @@ const Form = (props) => {
       <input
         type="text"
         name="name"
-        placeholder="¿Qué piensas hacer hoy?"
+        className='form-control mb-2'
+        placeholder="¿Qué planeas hacer hoy?"
         defaultValue={item.name}
         onChange={(event) => {
           setState({ ...state, name: event.target.value })
-        }}  ></input>
-      {item.id && <button onClick={onEdit}>Actualizar</button>}
-      {!item.id && <button onClick={onAdd}>Crear</button>}
+        }}  />
+      {item.id && <button className="btn btn-danger me-2" onClick={onEdit}>Actualizar</button>}
+      {!item.id && <button className="btn btn-warning" onClick={onAdd} type="submit" >Crear</button>}
     </form>
   }
 

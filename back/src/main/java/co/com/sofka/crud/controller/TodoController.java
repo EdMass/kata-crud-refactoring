@@ -21,13 +21,19 @@ public class TodoController {
     
     @PostMapping(value = "api/todo")
     public TodoDto save(@RequestBody TodoDto todoDto){
-        return service.save(todoDto);
+        if(!todoDto.getName().isEmpty() && todoDto.getName().length() > 3) {
+            return service.save(todoDto);
+        }
+        throw new RuntimeException("No se permiten campos vacios");
     }
 
     @PutMapping(value = "api/todo")
     public TodoDto update(@RequestBody TodoDto todoDto){
-        if(todoDto.getId() != null){
-            return service.save(todoDto);
+        if(todoDto.getId() != null ){
+            if(!todoDto.getName().isEmpty() && todoDto.getName().length() > 3) {
+                return service.save(todoDto);
+            }
+            throw new RuntimeException("No se permiten campos vacios");
         }
         throw new RuntimeException("No existe el id para actualziar");
     }

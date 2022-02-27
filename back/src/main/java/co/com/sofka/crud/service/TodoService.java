@@ -23,6 +23,7 @@ public class TodoService {
 
     public TodoDto save(TodoDto todoDto){
         Todo todoOrigin = new Todo();
+        todoOrigin.setId(todoDto.getId());
         todoOrigin.setName(todoDto.getName());
         todoOrigin.setCompleted(todoDto.isCompleted());
         Todo todo = repository.save(todoOrigin);

@@ -13,7 +13,17 @@ public class TodoDto {
     public TodoDto() {
     }
 
-    public TodoDto(Long id,String name, boolean completed, Long groupListId) {
+    @Override
+    public String toString() {
+        return "TodoDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", completed=" + completed +
+                ", groupListId=" + groupListId +
+                '}';
+    }
+
+    public TodoDto(Long id, String name, boolean completed, Long groupListId) {
         this.id = id;
         this.name = name;
         this.completed = completed;

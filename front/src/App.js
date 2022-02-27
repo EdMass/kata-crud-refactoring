@@ -1,6 +1,7 @@
 import React, { useReducer, createContext } from 'react';
 import Form from './components/Form';
 import List from './components/List';
+//import StoreProvider from './reducers/StoreProvider';
 
 export const HOST_API = "http://localhost:8080/api";
 const initialState = {
@@ -8,7 +9,6 @@ const initialState = {
 };
 
 const Store = createContext(initialState)
-
 
 function reducer(state, action) {
   switch (action.type) {
@@ -58,12 +58,13 @@ const StoreProvider = ({ children }) => {
 
 function App() {
   return (
-    <div className='container'> <StoreProvider>
-    <h3>To-Do List</h3>
-    <Form HOST_API={HOST_API} Store={Store} />
-    <List Store={Store} />
-  </StoreProvider>
-  </div>)
+    <> 
+    <StoreProvider>
+      <h3>To-Do List</h3>
+      <Form HOST_API={HOST_API} Store={Store} />
+      <List Store={Store} />
+    </StoreProvider>
+    </>)
 }
 
 export default App;
