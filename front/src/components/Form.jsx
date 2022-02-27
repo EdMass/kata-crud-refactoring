@@ -1,12 +1,12 @@
 import React, { useRef, useState, useContext } from 'react'
-
+//import Swal from 'sweetalert2'
 
 const Form = (props) => {
     const formRef = useRef(null);
     const { dispatch, state: { todo } } = useContext(props.Store);
     const item = todo.item;
     const [state, setState] = useState(item);
-  
+
     const onAdd = (event) => {
       event.preventDefault();
   
@@ -57,7 +57,7 @@ const Form = (props) => {
         });
     }
   
-    return <form ref={formRef}>
+    return <form ref={formRef} >
       <input
         type="text"
         name="name"
