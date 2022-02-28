@@ -1,4 +1,5 @@
 import React, { useRef, useState, useContext } from 'react'
+import { HOST_API } from '../App';
 //import Swal from 'sweetalert2'
 
 const Form = (props) => {
@@ -17,7 +18,7 @@ const Form = (props) => {
       };
   
   
-      fetch(props.HOST_API+ "/todo", {
+      fetch(HOST_API+ "/todo", {
         method: "POST",
         body: JSON.stringify(request),
         headers: {
@@ -42,7 +43,7 @@ const Form = (props) => {
       };
   
   
-      fetch(props.HOST_API + "/todo", {
+      fetch(HOST_API + "/todo", {
         method: "PUT",
         body: JSON.stringify(request),
         headers: {

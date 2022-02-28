@@ -52,7 +52,7 @@ const List = (props) => {
       <table >
         <thead>
           <tr>
-            <td>ID</td>
+            <td >ID</td>
             <td>Tarea</td>
             <td>¿Completado?</td>
           </tr>
