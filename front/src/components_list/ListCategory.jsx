@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import Form from "../components/Form"
 import List from "../components/List"
 import Store from "../Store"
 import ConexionList from "./ConexionList"
-import EventsList from "./EventsList"
+import Events from "../reducers/Events"
 
 export default () =>{
     const { state: { list, todo}, dispatch } = useContext(Store)
@@ -13,7 +13,7 @@ export default () =>{
         ConexionList.findAll().then((response) =>{
             if(response.ok){
                 response.json().then((list) => {
-                    dispatch(EventsList.finded(list))
+                    dispatch(Events.finded(list))
                     console.log("Successful list")
                 })
             }
@@ -24,7 +24,7 @@ export default () =>{
     const onDelete = (listId) => {
         ConexionList.delete(listId).then((response) => {
             if(response.ok){
-                dispatch(EventsList.deleted(listId))
+                dispatch(Events.deleted(listId))
             }
         })
     }

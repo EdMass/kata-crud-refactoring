@@ -1,6 +1,6 @@
 import React, { useRef, useState, useContext } from 'react'
 import ConexionList from './ConexionList';
-import EventsList from './EventsList';
+import Events from '../reducers/Events';
 import Store from '../Store';
  
 
@@ -13,10 +13,10 @@ export default () => {
     const OnCreate = (e) => {
         e.preventDefault();
         ConexionList.save({name: state.name, id: null})
-            .then((response) => {
+            .then((response) => {                
                 if(response.ok) {
-                    response.json().then((newList) => {
-                        dispatch(EventsList.saved(newList));
+                    response.json().then((newList) => {                        
+                        dispatch(Events.saved(newList));
                         formRef.current.reset();
                         setState({name: ""})
                     })

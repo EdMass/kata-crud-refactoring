@@ -30,6 +30,7 @@ public class TodoListController {
 
     @PostMapping(value = "api/todolist")
     public TodoListDto newListTodo(@RequestBody TodoListDto todoListDto){
+        System.out.println(todoListDto);
         return todoListServices.newListTodo(todoListDto);
     }
 

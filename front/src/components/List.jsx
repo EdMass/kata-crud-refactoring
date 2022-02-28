@@ -1,54 +1,61 @@
-import React, {useContext, useEffect} from 'react'
-import { HOST_API } from '../App';
+import React, {useContext, useEffect, useState} from 'react'
+import Store from "../Store"
+import ConexionTodo from './ConexionTodo';
+import Events from '../reducers/Events';
 
-const List = (props) => {
-    const { dispatch, state: { todo } } = useContext(props.Store);
-    const currentList = todo.list;
+const List = ({listId, todo}) => {
+    const { dispatch } = useContext(Store);
+    const [loaded, setLoaded] = useState(false)
+    const list = todo.elements.filter((element) => {
+      console.log(element)
+      return element.groupListId === listId
+    })    
   
     useEffect(() => {
-      fetch(HOST_API + "/todos")
-        .then(response => response.json())
-        .then((list) => {
-          dispatch({ type: "update-list", list })
-        })
-    }, [dispatch]);
-  
-  
-    const onDelete = (id) => {
-      fetch(HOST_API + "/" + id + "/todo", {
-        method: "DELETE"
-      }).then((list) => {
-        dispatch({ type: "delete-item", id })
-      })
-    };
-  
-    const onEdit = (todo) => {
-      dispatch({ type: "edit-item", item: todo })
-    };
-  
-    const onChange = (event, todo) => {
-      const request = {
-        name: todo.name,
-        id: todo.id,
-        completed: event.target.checked
-      };
-      fetch(HOST_API + "/todo", {
-        method: "PUT",
-        body: JSON.stringify(request),
-        headers: {
-          'Content-Type': 'application/json'
+      ConexionTodo.findAll(listId).then((response) => {
+        if(response.ok){
+          response.json().then((items) => {
+            console.log("Successful To do")
+            setLoaded(true)
+            dispatch(Events.findedItem(listId, items));
+          })
         }
       })
-        .then(response => response.json())
-        .then((todo) => {
-          dispatch({ type: "update-item", item: todo });
-        });
+    }, [listId, dispatch]);
+  
+  
+    const onDelete = (itemId) => {
+      ConexionTodo.delete(itemId).then((response) =>{
+        if(response.ok){
+          dispatch(Events.deletedItem(listId, itemId))
+        }
+      })
+    };
+  
+    const onEdit = (item) => {
+      dispatch(Events.onEditedItem(listId, item))
+    };
+  
+    const onChange = (event, item) => {
+      const request = {
+        name: item.name,
+        id: item.id,
+        completed: event.target.checked
+      };
+      ConexionTodo.update(listId, request).then((response) => {
+        if(response.ok){
+          response.json().then(() => {
+            dispatch(Events.updatedItem(listId, request))
+          })
+        }
+      })
     };
   
     const decorationDone = {
       textDecoration: 'line-through'
     };
     return <div>
+      {!loaded && <div>Loading...</div> }
       <table >
         <thead>
           <tr>
@@ -58,7 +65,7 @@ const List = (props) => {
           </tr>
         </thead>
         <tbody>
-          {currentList.map((todo) => {
+          {list.map((todo) => {
             return <tr key={todo.id} style={todo.completed ? decorationDone : {}}>
               <td>{todo.id}</td>
               <td>{todo.name}</td>

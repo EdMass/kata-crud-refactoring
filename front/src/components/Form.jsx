@@ -1,11 +1,12 @@
 import React, { useRef, useState, useContext } from 'react'
-import { HOST_API } from '../App';
-//import Swal from 'sweetalert2'
+import Events from '../reducers/Events';
+import ConexionTodo from './ConexionTodo';
+import Store from "../Store"
 
-const Form = (props) => {
+const Form = ({listId, todo}) => {
     const formRef = useRef(null);
-    const { dispatch, state: { todo } } = useContext(props.Store);
-    const item = todo.item;
+    const { dispatch } = useContext(Store);
+    const item = todo.item[listId] ? todo.item[listId] :{}
     const [state, setState] = useState(item);
 
     const onAdd = (event) => {
@@ -17,20 +18,17 @@ const Form = (props) => {
         completed: false
       };
   
-  
-      fetch(HOST_API+ "/todo", {
-        method: "POST",
-        body: JSON.stringify(request),
-        headers: {
-          'Content-Type': 'application/json'
+      ConexionTodo.save(listId, request).then((response) => {
+        if(response.ok){
+          response.json().then((result) => {
+            console.log(result)
+            dispatch(Events.savedItem(listId, result))
+            setState({name: ""})
+            formRef.current.reset()
+          })
         }
-      })
-        .then(response => response.json())
-        .then((todo) => {
-          dispatch({ type: "add-item", item: todo });
-          setState({ name: "" });
-          formRef.current.reset();
-        });
+      })     
+        
     }
   
     const onEdit = (event) => {
@@ -41,21 +39,18 @@ const Form = (props) => {
         id: item.id,
         isCompleted: item.isCompleted
       };
-  
-  
-      fetch(HOST_API + "/todo", {
-        method: "PUT",
-        body: JSON.stringify(request),
-        headers: {
-          'Content-Type': 'application/json'
+      
+      ConexionTodo.update(listId, request).then((response) => {
+        if(response.ok){
+          response.json().then((result) => {
+            dispatch(Events.updatedItem(listId, result))
+            setState({name: ""})
+            formRef.current.reset()
+          })
         }
       })
-        .then(response => response.json())
-        .then((todo) => {
-          dispatch({ type: "update-item", item: todo });
-          setState({ name: "" });
-          formRef.current.reset();
-        });
+  
+      
     }
   
     return <form ref={formRef} >
